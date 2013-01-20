@@ -26,6 +26,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Schedule"></activity>
+        <activity android:name=".ShowActivity"></activity>
     </application>
 
 </manifest>

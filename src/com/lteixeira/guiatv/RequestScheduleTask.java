@@ -31,7 +31,7 @@ public class RequestScheduleTask extends AsyncTask<URL, Integer, List<Show>> {
 	static final String KEY_SHOW = "Program";
 	static final String KEY_ID = "Id";
 	static final String KEY_NAME = "Title";
-	static final String KEY_DESCRIPTION = "Desciption";
+	static final String KEY_DESCRIPTION = "Description";
 	static final String KEY_INICIO = "StartTime";
 	
 	private ProgressDialog dialog;

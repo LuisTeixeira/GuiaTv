@@ -4,9 +4,12 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.Time;
 import android.util.Log;
+import android.view.View;
+import android.widget.ListView;
 
 public class Schedule extends ListActivity {
 	//Debug Tag
@@ -38,6 +41,15 @@ public class Schedule extends ListActivity {
 		Log.d(TAG, channel.toString());
 	}
 	
+	@Override
+	protected void onListItemClick(ListView l, View v, int position, long id){
+		super.onListItemClick(l, v, position, id);
+		Intent showIntent = new Intent(this,ShowActivity.class);
+		Show show = (Show) l.getItemAtPosition(position);
+		((GuiaTvApp)getApplication()).setShow(show);
+		startActivity(showIntent);
+		Log.d(TAG, show.toString());
+	}
 	
 	private URL prepareUrl(Channel channel, Time date) throws MalformedURLException{
 		Time endTime = new Time();

@@ -1,12 +1,6 @@
 package com.lteixeira.guiatv;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
 import android.app.Application;
-import android.app.ListActivity;
-import android.content.Context;
-import android.util.Log;
 
 public class GuiaTvApp extends Application {
 	
@@ -14,6 +8,7 @@ public class GuiaTvApp extends Application {
 	public final static String TAG = "GuiaTvApp";
 	
 	private Channel choice;
+	private Show show;
 	
 	public Channel getChoice(){
 		return choice;
@@ -21,5 +16,13 @@ public class GuiaTvApp extends Application {
 	
 	public void setChoice(Channel choice){
 		this.choice = choice;
+	}
+	
+	public Show getShow(){
+		return show;
+	}
+	
+	public void setShow(Show show){
+		this.show = show;
 	}
 }
