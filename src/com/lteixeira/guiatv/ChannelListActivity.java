@@ -18,8 +18,10 @@ public class ChannelListActivity extends ListActivity {
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if(getListAdapter() == null)
+		if(((GuiaTvApp)getApplication()).getChannels() == null)
 			updateChannels();
+		else
+			setListAdapter(new ChannelsAdapter(this, R.layout.list_row, ((GuiaTvApp)getApplication()).getChannels()));
 		Log.d(TAG,"CREATED");
 	}
 

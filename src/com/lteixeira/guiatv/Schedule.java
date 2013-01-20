@@ -23,24 +23,31 @@ public class Schedule extends ListActivity {
 	public final static String END_TIME = "endDate";
 	public final static long MILISECONDS_IN_DAY = 86400000;
 	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Channel channel = ((GuiaTvApp)getApplicationContext()).getChoice();
+		Channel last = ((GuiaTvApp)getApplicationContext()).getLast();
 		Time today = new Time();
 		today.setToNow();
 		setTitle(channel.getName());
-		try{
-			URL url = prepareUrl(channel, today);
-			Log.d(TAG, url.toString());
-			RequestScheduleTask task = new RequestScheduleTask(this);
-			task.execute(url);
-		}catch(MalformedURLException ex){
-			Log.d(TAG,"MalformedURLException");
+		if(channel != last || ((GuiaTvApp)getApplicationContext()).getShows() == null){
+			try{
+				URL url = prepareUrl(channel, today);
+				Log.d(TAG, url.toString());
+				RequestScheduleTask task = new RequestScheduleTask(this);
+				((GuiaTvApp)getApplicationContext()).setLast(channel);
+				task.execute(url);
+			}catch(MalformedURLException ex){
+				Log.d(TAG,"MalformedURLException");
+			}
+		}else{
+			setListAdapter(new ScheduleAdapter(this, R.layout.list_row, ((GuiaTvApp)getApplicationContext()).getShows()));
 		}
 		Log.d(TAG, channel.toString());
 	}
-	
+
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id){
 		super.onListItemClick(l, v, position, id);

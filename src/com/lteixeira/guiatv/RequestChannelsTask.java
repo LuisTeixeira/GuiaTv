@@ -62,10 +62,8 @@ public class RequestChannelsTask extends AsyncTask<URL, Integer, List<Channel>>{
 		if(dialog.isShowing())
 			dialog.dismiss();
 		
+		((GuiaTvApp)context.getApplication()).setChannels(result);
 		context.setListAdapter(new ChannelsAdapter(context, R.layout.list_row, result));
-				
-/*		for(Channel c : result)
-			Log.d(TAG,c.toString());*/
 	}
 	
 	private List<Channel> xmlToChannel(InputStream response) throws XmlPullParserException, IOException{

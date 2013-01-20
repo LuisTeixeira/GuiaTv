@@ -84,14 +84,8 @@ public class RequestScheduleTask extends AsyncTask<URL, Integer, List<Show>> {
 	protected void onPostExecute(List<Show> result) {
 		if(dialog.isShowing())
 			dialog.dismiss();
-		
-		/*Log.d(TAG, result.size() + "");
-		
-		for(Show s: result)
-			Log.d(TAG, s.toString());
-		*/
-		if(result != null)
-			context.setListAdapter(new ScheduleAdapter(context, R.layout.list_row, result));
+		((GuiaTvApp)context.getApplication()).setShows(result);
+		context.setListAdapter(new ScheduleAdapter(context, R.layout.list_row, result));
 	}
 	
 	private List<Show> xmlToShow(InputStream in) throws XmlPullParserException, IOException {
