@@ -41,6 +41,8 @@ public class Schedule extends ListActivity {
 	
 	private URL prepareUrl(Channel channel, Time date) throws MalformedURLException{
 		Time endTime = new Time();
+		if(date.hour < 6)
+			date.set(date.toMillis(true) - MILISECONDS_IN_DAY);
 		String[] startDate = {Integer.toString(date.year),Integer.toString(date.month+1),Integer.toString(date.monthDay)};
 		endTime.set(date.toMillis(true) + MILISECONDS_IN_DAY);
 		String[] endDate = {Integer.toString(endTime.year),Integer.toString(endTime.month+1),Integer.toString(endTime.monthDay)};
