@@ -33,6 +33,7 @@ public class RequestScheduleTask extends AsyncTask<URL, Integer, List<Show>> {
 	static final String KEY_NAME = "Title";
 	static final String KEY_DESCRIPTION = "Description";
 	static final String KEY_INICIO = "StartTime";
+	static final String KEY_FIM = "EndTime";
 	
 	private ProgressDialog dialog;
 	private ListActivity context;
@@ -157,6 +158,7 @@ public class RequestScheduleTask extends AsyncTask<URL, Integer, List<Show>> {
 		String showName = null;
 		String description = null;
 		Time inicio = new Time();
+		Time fim = new Time();
 		parser.require(XmlPullParser.START_TAG, null, KEY_SHOW);
 		
 		while(parser.next() != XmlPullParser.END_TAG){
@@ -172,10 +174,12 @@ public class RequestScheduleTask extends AsyncTask<URL, Integer, List<Show>> {
 				description = readDescription(parser);
 			else if(name.equals(KEY_INICIO))
 				inicio = readInicio(parser);
+			else if(name.equals(KEY_FIM))
+				fim = readFim(parser);
 			else
 				skip(parser);
 		}
-		return new Show(id,showName,description,inicio);
+		return new Show(id,showName,description,inicio,fim);
 	}
 
 	private Time readInicio(XmlPullParser parser) throws XmlPullParserException, IOException {
@@ -185,6 +189,13 @@ public class RequestScheduleTask extends AsyncTask<URL, Integer, List<Show>> {
 		return parseTime(time);
 	}
 
+	private Time readFim(XmlPullParser parser) throws XmlPullParserException, IOException {
+		parser.require(XmlPullParser.START_TAG, null, KEY_FIM);
+		String time = readText(parser);
+		parser.require(XmlPullParser.END_TAG, null, KEY_FIM);
+		return parseTime(time);
+	}
+	
 	private Time parseTime(String time) {
 		StringTokenizer st = new StringTokenizer(time," ");
 		String data = st.nextToken();

@@ -10,11 +10,12 @@ public class Show {
 	private Time inicio;
 	private Time fim;
 	
-	public Show(int id,String name,String description,Time inicio){
+	public Show(int id,String name,String description,Time inicio,Time fim){
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.inicio = inicio;
+		this.fim = fim;
 	}
 	
 	public int getId() {
