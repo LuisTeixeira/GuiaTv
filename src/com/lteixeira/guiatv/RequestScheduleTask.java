@@ -173,26 +173,19 @@ public class RequestScheduleTask extends AsyncTask<URL, Integer, List<Show>> {
 			else if(name.equals(KEY_DESCRIPTION))
 				description = readDescription(parser);
 			else if(name.equals(KEY_INICIO))
-				inicio = readInicio(parser);
+				inicio = readTime(parser,KEY_INICIO);
 			else if(name.equals(KEY_FIM))
-				fim = readFim(parser);
+				fim = readTime(parser,KEY_FIM);
 			else
 				skip(parser);
 		}
 		return new Show(id,showName,description,inicio,fim);
 	}
 
-	private Time readInicio(XmlPullParser parser) throws XmlPullParserException, IOException {
-		parser.require(XmlPullParser.START_TAG, null, KEY_INICIO);
+	private Time readTime(XmlPullParser parser,String key) throws XmlPullParserException, IOException {
+		parser.require(XmlPullParser.START_TAG, null, key);
 		String time = readText(parser);
-		parser.require(XmlPullParser.END_TAG, null, KEY_INICIO);
-		return parseTime(time);
-	}
-
-	private Time readFim(XmlPullParser parser) throws XmlPullParserException, IOException {
-		parser.require(XmlPullParser.START_TAG, null, KEY_FIM);
-		String time = readText(parser);
-		parser.require(XmlPullParser.END_TAG, null, KEY_FIM);
+		parser.require(XmlPullParser.END_TAG, null, key);
 		return parseTime(time);
 	}
 	
