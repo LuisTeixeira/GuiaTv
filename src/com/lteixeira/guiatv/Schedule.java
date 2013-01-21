@@ -80,10 +80,14 @@ public class Schedule extends Activity implements OnItemClickListener,OnClickLis
 		previousDay.setOnClickListener(this);
 		nextDaY = (Button) findViewById(R.id.nextDayButton);
 		nextDaY.setOnClickListener(this);
-		day = new Time();
-		day.setToNow();
-		if(day.hour < 6)
-			day.set(day.toMillis(true) - MILISECONDS_IN_DAY);
+		day = ((GuiaTvApp)getApplication()).getDay();
+		if(day == null){
+			day = new Time();
+			day.setToNow();
+			if(day.hour < 6)
+				day.set(day.toMillis(true) - MILISECONDS_IN_DAY);
+			((GuiaTvApp)getApplication()).setDay(day);
+		}
 	}
 	
 	private void writeDay(Time day){
@@ -121,6 +125,7 @@ public class Schedule extends Activity implements OnItemClickListener,OnClickLis
 		else
 			day.set(day.toMillis(true)+MILISECONDS_IN_DAY);
 		writeDay(day);
+		((GuiaTvApp)getApplication()).setDay(day);
 		makeUrlRequest(day);
 	}
 }

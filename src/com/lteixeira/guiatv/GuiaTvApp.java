@@ -3,6 +3,7 @@ package com.lteixeira.guiatv;
 import java.util.List;
 
 import android.app.Application;
+import android.text.format.Time;
 
 public class GuiaTvApp extends Application {
 	
@@ -11,6 +12,7 @@ public class GuiaTvApp extends Application {
 	
 	private Channel choice;
 	private Channel last;
+	private Time day;
 	List<Channel> channels;
 	private Show show;
 	List<Show> shows;
@@ -53,5 +55,13 @@ public class GuiaTvApp extends Application {
 	
 	public void setShow(Show show){
 		this.show = show;
+	}
+	
+	public Time getDay() {
+		return day;
+	}
+
+	public void setDay(Time day) {
+		this.day = day;
 	}
 }
