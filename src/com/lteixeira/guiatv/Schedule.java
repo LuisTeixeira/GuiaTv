@@ -103,7 +103,7 @@ public class Schedule extends Activity implements OnItemClickListener,OnClickLis
 		StringBuffer request = new StringBuffer();
 		
 		request.append("http://services.sapo.pt/EPG/GetChannelByDateInterval?");
-		request.append(SIGLA + "=" + channel.getSigla());
+		request.append(SIGLA + "=" + channel.getSigla().replace(" ", "%20"));
 		request.append("&" + START_TIME + "=" + startDate[0] + "-" + startDate[1] + "-" + startDate[2] + "%20" + STARTHOUR);
 		request.append("&" + END_TIME + "=" + endDate[0] + "-" + endDate[1] + "-" + endDate[2] + "%20" + ENDHOUR);
 		return new URL(request.toString());
