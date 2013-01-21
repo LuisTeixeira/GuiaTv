@@ -36,9 +36,9 @@ public class RequestScheduleTask extends AsyncTask<URL, Integer, List<Show>> {
 	static final String KEY_FIM = "EndTime";
 	
 	private ProgressDialog dialog;
-	private ListActivity context;
+	private Schedule context;
 	
-	RequestScheduleTask(ListActivity context){
+	RequestScheduleTask(Schedule context){
 		this.context = context;
 		this.dialog = new ProgressDialog(this.context);
 	}
@@ -86,7 +86,7 @@ public class RequestScheduleTask extends AsyncTask<URL, Integer, List<Show>> {
 		if(dialog.isShowing())
 			dialog.dismiss();
 		((GuiaTvApp)context.getApplication()).setShows(result);
-		context.setListAdapter(new ScheduleAdapter(context, R.layout.list_row, result));
+		context.getList().setAdapter(new ScheduleAdapter(context, R.layout.list_row, result));
 	}
 	
 	private List<Show> xmlToShow(InputStream in) throws XmlPullParserException, IOException {

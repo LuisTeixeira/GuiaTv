@@ -4,5 +4,7 @@
     <string name="app_name">Guia Tv</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
+    <string name="dia_seguinte">+</string>
+    <string name="dia_anterior">-</string>
 
 </resources>
