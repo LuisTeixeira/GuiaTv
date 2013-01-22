@@ -20,6 +20,7 @@ public class ShowActivity extends Activity {
 		horaInicio = (TextView) findViewById(R.id.horaInicio);
 		horaFim = (TextView) findViewById(R.id.horaFim);
 		Show show = ((GuiaTvApp)getApplication()).getShow();
+		setTitle(show.getName());
 		title.setText(show.getName());
 		description.setText(show.getDescription());
 		horaInicio.setText(String.format("Inicio:\t %02d:%02d", show.getInicio().hour,show.getInicio().minute));

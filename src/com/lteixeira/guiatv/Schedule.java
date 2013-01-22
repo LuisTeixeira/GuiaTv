@@ -34,6 +34,7 @@ public class Schedule extends Activity implements OnItemClickListener,OnClickLis
 	private Button previousDay;
 	private Button nextDaY;
 	private Channel channel;
+	Channel last;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +42,6 @@ public class Schedule extends Activity implements OnItemClickListener,OnClickLis
 		setContentView(R.layout.schedule_layout);
 		initVariables();
 		writeDay(day);
-		channel = ((GuiaTvApp)getApplicationContext()).getChoice();
-		Channel last = ((GuiaTvApp)getApplicationContext()).getLast();
 		setTitle(channel.getName());
 		if(channel != last || ((GuiaTvApp)getApplicationContext()).getShows() == null){
 			makeUrlRequest(day);
@@ -80,8 +79,10 @@ public class Schedule extends Activity implements OnItemClickListener,OnClickLis
 		previousDay.setOnClickListener(this);
 		nextDaY = (Button) findViewById(R.id.nextDayButton);
 		nextDaY.setOnClickListener(this);
+		channel = ((GuiaTvApp)getApplicationContext()).getChoice();
+		last = ((GuiaTvApp)getApplicationContext()).getLast();
 		day = ((GuiaTvApp)getApplication()).getDay();
-		if(day == null){
+		if(day == null || channel != last){
 			day = new Time();
 			day.setToNow();
 			if(day.hour < 6)
