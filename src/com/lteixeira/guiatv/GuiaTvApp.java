@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.app.Application;
 import android.text.format.Time;
+import android.util.Log;
 
 public class GuiaTvApp extends Application {
 	
@@ -16,6 +17,22 @@ public class GuiaTvApp extends Application {
 	List<Channel> channels;
 	private Show show;
 	List<Show> shows;
+	
+	public int positionFirstShow(){
+		Time today = new Time();
+		today.setToNow();
+		if(day.monthDay == today.monthDay){
+			for(int i = 0; i < shows.size(); i++){
+				if(shows.get(i).getInicio().after(today)){
+					Log.d(TAG,"True i="+i);
+					Log.d(TAG,"True ini="+shows.get(i).getInicio().toMillis(true));
+					Log.d(TAG,"True tod="+today.toMillis(true));
+					return i - 1;
+				}
+			}
+		}
+		return 0;
+	}
 	
 	public Channel getLast() {
 		return last;

@@ -85,7 +85,9 @@ public class RequestScheduleTask extends AsyncTask<URL, Integer, List<Show>> {
 		if(dialog.isShowing())
 			dialog.dismiss();
 		((GuiaTvApp)context.getApplication()).setShows(result);
-		context.getList().setAdapter(new ScheduleAdapter(context, R.layout.list_row, result));
+		ScheduleAdapter s = new ScheduleAdapter(context, R.layout.list_row, result);
+		context.getList().setAdapter(s);
+		context.getList().setSelection(((GuiaTvApp)context.getApplication()).positionFirstShow());
 	}
 	
 	private List<Show> xmlToShow(InputStream in) throws XmlPullParserException, IOException {
@@ -194,7 +196,7 @@ public class RequestScheduleTask extends AsyncTask<URL, Integer, List<Show>> {
 		String hours = st.nextToken();
 		st = new StringTokenizer(data,"-");
 		int year = Integer.parseInt(st.nextToken());
-		int month = Integer.parseInt(st.nextToken());
+		int month = Integer.parseInt(st.nextToken()) - 1;
 		int day = Integer.parseInt(st.nextToken());
 		st = new StringTokenizer(hours,":");
 		int hour = Integer.parseInt(st.nextToken());

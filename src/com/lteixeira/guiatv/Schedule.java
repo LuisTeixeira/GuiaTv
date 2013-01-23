@@ -13,6 +13,7 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -46,7 +47,9 @@ public class Schedule extends Activity implements OnItemClickListener,OnClickLis
 		if(channel != last || ((GuiaTvApp)getApplicationContext()).getShows() == null){
 			makeUrlRequest(day);
 		}else{
-			list.setAdapter(new ScheduleAdapter(this, R.layout.list_row, ((GuiaTvApp)getApplicationContext()).getShows()));
+			ScheduleAdapter s = new ScheduleAdapter(this, R.layout.list_row, ((GuiaTvApp)getApplicationContext()).getShows());
+			list.setAdapter(s);
+			list.setSelection(((GuiaTvApp)getApplicationContext()).positionFirstShow());
 		}
 		Log.d(TAG, channel.toString());
 	}

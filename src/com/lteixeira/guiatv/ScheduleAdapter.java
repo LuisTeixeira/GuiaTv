@@ -3,6 +3,8 @@ package com.lteixeira.guiatv;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,16 +33,25 @@ public class ScheduleAdapter extends ArrayAdapter<Show> {
 		}
 		
 		Show show = shows.get(position);
+		Time now = new Time();
+		now.setToNow();
 		
 		if(show != null){
-			TextView sigla = (TextView) v.findViewById(R.id.rowSigla);
+			TextView startTime = (TextView) v.findViewById(R.id.rowSigla);
 			TextView name = (TextView) v.findViewById(R.id.rowName);
+			startTime.setTextColor(Color.BLACK);
+			name.setTextColor(Color.BLACK);
 			
-			if(sigla != null)
-				sigla.setText(String.format("%02d:%02d",show.getInicio().hour,show.getInicio().minute));
+			if(startTime != null)
+				startTime.setText(String.format("%02d:%02d",show.getInicio().hour,show.getInicio().minute));
 			
 			if(name != null)
 				name.setText(show.getName());
+			
+			if(show.getFim().before(now)){
+				startTime.setTextColor(Color.GRAY);
+				name.setTextColor(Color.GRAY);
+			}
 		}
 		return v;
 	}
