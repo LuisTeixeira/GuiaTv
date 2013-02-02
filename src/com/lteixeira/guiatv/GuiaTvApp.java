@@ -27,7 +27,7 @@ public class GuiaTvApp extends Application {
 					Log.d(TAG,"True i="+i);
 					Log.d(TAG,"True ini="+shows.get(i).getInicio().toMillis(true));
 					Log.d(TAG,"True tod="+today.toMillis(true));
-					return i - 1;
+					return i - 2; //para mostrar também o último programa antes do actual
 				}
 			}
 		}
