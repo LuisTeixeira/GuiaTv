@@ -11,8 +11,6 @@ import java.util.List;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
-import android.app.ListActivity;
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Xml;
 
@@ -27,17 +25,14 @@ public class RequestChannelsTask extends AsyncTask<URL, Integer, List<Channel>>{
 	//Debug TAG
 	public final static String TAG = "REQUESTTASK";
 	
-	private ProgressDialog dialog;
-	private ListActivity context;
+	private ChannelList callback;
 	
-	public RequestChannelsTask(ListActivity context) {
-		this.context = context;
-		this.dialog = new ProgressDialog(this.context);
+	public RequestChannelsTask(ChannelList callback) {
+		this.callback = callback;
 	}
 	
 	protected void onPreExecute(){
-		this.dialog.setMessage("Downloading...");
-		this.dialog.show();
+		callback.startDialog();
 	}
 	
 	@Override
@@ -59,11 +54,9 @@ public class RequestChannelsTask extends AsyncTask<URL, Integer, List<Channel>>{
 
 	@Override
 	protected void onPostExecute(List<Channel> result) {
-		if(dialog.isShowing())
-			dialog.dismiss();
-		
-		((GuiaTvApp)context.getApplication()).setChannels(result);
-		context.setListAdapter(new ChannelsAdapter(context, R.layout.list_row, result));
+		callback.removeDiolog();
+		callback.saveResults(result);
+		callback.fillList(result);
 	}
 	
 	private List<Channel> xmlToChannel(InputStream response) throws XmlPullParserException, IOException{

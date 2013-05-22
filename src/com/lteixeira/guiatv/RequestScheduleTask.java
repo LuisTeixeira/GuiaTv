@@ -14,7 +14,6 @@ import java.util.StringTokenizer;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.text.format.Time;
 import android.util.Log;
@@ -34,18 +33,15 @@ public class RequestScheduleTask extends AsyncTask<URL, Integer, List<Show>> {
 	static final String KEY_INICIO = "StartTime";
 	static final String KEY_FIM = "EndTime";
 	
-	private ProgressDialog dialog;
-	private Schedule context;
+	private ScheduleList callback;
 	
-	RequestScheduleTask(Schedule context){
-		this.context = context;
-		this.dialog = new ProgressDialog(this.context);
+	RequestScheduleTask(ScheduleList callback){
+		this.callback = callback;
 	}
 	
 	@Override
 	protected void onPreExecute() {
-		this.dialog.setMessage("Downloading...");
-		this.dialog.show();
+		callback.showDialog();
 	}
 
 	@Override
@@ -82,12 +78,9 @@ public class RequestScheduleTask extends AsyncTask<URL, Integer, List<Show>> {
 
 	@Override
 	protected void onPostExecute(List<Show> result) {
-		if(dialog.isShowing())
-			dialog.dismiss();
-		((GuiaTvApp)context.getApplication()).setShows(result);
-		ScheduleAdapter s = new ScheduleAdapter(context, R.layout.list_row, result);
-		context.getList().setAdapter(s);
-		context.getList().setSelection(((GuiaTvApp)context.getApplication()).positionFirstShow());
+		callback.removeDialog();
+		callback.saveSchedule(result);
+		callback.fillList(result);
 	}
 	
 	private List<Show> xmlToShow(InputStream in) throws XmlPullParserException, IOException {

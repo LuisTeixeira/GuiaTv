@@ -2,8 +2,10 @@ package com.lteixeira.guiatv;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.Time;
@@ -13,11 +15,10 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class Schedule extends Activity implements OnItemClickListener,OnClickListener{
+public class Schedule extends Activity implements OnItemClickListener,OnClickListener,ScheduleList{
 	//Debug Tag
 	public final static String TAG = "Schedule";
 	
@@ -29,6 +30,7 @@ public class Schedule extends Activity implements OnItemClickListener,OnClickLis
 	public final static String END_TIME = "endDate";
 	public final static long MILISECONDS_IN_DAY = 86400000;
 	
+	private ProgressDialog dialog;
 	private Time day;
 	private ListView list;
 	private TextView date;
@@ -75,6 +77,7 @@ public class Schedule extends Activity implements OnItemClickListener,OnClickLis
 	}
 	
 	private void initVariables(){
+		dialog = new ProgressDialog(this);
 		list = (ListView) findViewById(R.id.scheduleList);
 		list.setOnItemClickListener(this);
 		date = (TextView) findViewById(R.id.dayTextView);
@@ -131,5 +134,31 @@ public class Schedule extends Activity implements OnItemClickListener,OnClickLis
 		writeDay(day);
 		((GuiaTvApp)getApplication()).setDay(day);
 		makeUrlRequest(day);
+	}
+
+	@Override
+	public void showDialog() {
+		dialog.setMessage("Downloading...");
+		dialog.show();
+	}
+
+	@Override
+	public void removeDialog() {
+		if(dialog.isShowing())
+			dialog.dismiss();
+	}
+
+	@Override
+	public void saveSchedule(List<Show> result) {
+		((GuiaTvApp)getApplication()).setShows(result);
+	}
+
+	@Override
+	public void fillList(List<Show> result) {
+		if(result == null)
+			Log.d(TAG, "Result is null");
+		ScheduleAdapter s = new ScheduleAdapter(this, R.layout.list_row, result);
+		getList().setAdapter(s);
+		getList().setSelection(((GuiaTvApp)getApplication()).positionFirstShow());
 	}
 }
